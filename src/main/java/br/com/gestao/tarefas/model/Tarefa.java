@@ -35,7 +35,12 @@ public class Tarefa {
     //relacionamentos
 
     //TAREFA USUARIO - MANY TO ONE
+    @ManyToOne
+    @JoinColumn(name="id_usuario", nullable = false)
+    private Usuario usuario;
 
     //TAREFA STATUS - ONE TO ONE
+    @OneToOne(mappedBy = "tarefa", cascade = CascadeType.ALL)
+    private Status status;
 
 }

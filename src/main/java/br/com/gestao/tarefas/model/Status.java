@@ -25,5 +25,8 @@ public class Status {
     //relacionamentos
 
     //STATUS TAREFA - ONE TO ONE
+    @OneToOne
+    @JoinColumn(name = "id_tarefa", nullable = false)
+    private Tarefa tarefa;
 
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.List;
+
 @Entity
 @Table(name="TB_GT_USUARIO")
 @Getter @Setter
@@ -30,4 +32,6 @@ public class Usuario {
     //relacionamentos
 
     //USUARIO TAREFA - ONE TO MANY
+    @OneToMany(mappedBy = "usuario")
+    private List<Tarefa> tarefas;
 }
