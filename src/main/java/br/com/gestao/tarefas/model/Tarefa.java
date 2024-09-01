@@ -1,11 +1,10 @@
 package br.com.gestao.tarefas.model;
 
+import br.com.gestao.tarefas.dto.TarefaDto.CadastroTarefaDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
@@ -32,6 +31,10 @@ public class Tarefa {
     @Column(name="dt_conclusao", nullable = false)
     private LocalDate dataConclusao;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ds_status", nullable = false)
+    private Status status = Status.PENDENTE;
+
     //relacionamentos
 
     //TAREFA USUARIO - MANY TO ONE
@@ -39,8 +42,23 @@ public class Tarefa {
     @JoinColumn(name="id_usuario", nullable = false)
     private Usuario usuario;
 
-    //TAREFA STATUS - ONE TO ONE
-    @OneToOne(mappedBy = "tarefa", cascade = CascadeType.ALL)
-    private Status status;
+
+    public Tarefa(CadastroTarefaDto dto){
+        titulo = dto.titulo();
+        descricao = dto.descricao();
+        dataConclusao = dto.dataConclusao();
+        status = dto.status() != null ? dto.status() : Status.PENDENTE;
+    }
+
+    public void atualizarInformacoesTarefa(CadastroTarefaDto dto){
+        if(dto.titulo() != null )
+            titulo = dto.titulo();
+        if(dto.descricao() != null )
+            descricao = dto.descricao();
+        if(dto.dataConclusao() != null)
+            dataConclusao = dto.dataConclusao();
+        if(dto.status() != null)
+            status = dto.status();
+    }
 
 }
